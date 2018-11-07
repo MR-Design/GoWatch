@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GoWatch.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181107030318_EditAddModels")]
-    partial class EditAddModels
+    [Migration("20181107153133_initial migration")]
+    partial class initialmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,15 +33,13 @@ namespace GoWatch.Migrations
 
                     b.Property<string>("City");
 
-                    b.Property<int?>("EventCreatorEventID");
-
                     b.Property<bool>("EventType");
 
                     b.Property<string>("HomeTeam");
 
                     b.Property<int>("Price");
 
-                    b.Property<int>("Rating");
+                    b.Property<int>("RateEvent");
 
                     b.Property<string>("Rules");
 
@@ -50,8 +48,6 @@ namespace GoWatch.Migrations
                     b.Property<int>("ZipCode");
 
                     b.HasKey("EventID");
-
-                    b.HasIndex("EventCreatorEventID");
 
                     b.ToTable("Events");
                 });
@@ -63,6 +59,8 @@ namespace GoWatch.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Address");
+
+                    b.Property<string>("ApplicationUserId");
 
                     b.Property<int>("CCV");
 
@@ -86,28 +84,13 @@ namespace GoWatch.Migrations
 
                     b.Property<string>("State");
 
-                    b.Property<string>("Username");
-
                     b.Property<string>("ZipCode");
 
                     b.HasKey("FanID");
 
+                    b.HasIndex("ApplicationUserId");
+
                     b.ToTable("Fans");
-                });
-
-            modelBuilder.Entity("GoWatch.Models.Friend", b =>
-                {
-                    b.Property<int>("FriendID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("FanID");
-
-                    b.HasKey("FriendID");
-
-                    b.HasIndex("FanID");
-
-                    b.ToTable("Friends");
                 });
 
             modelBuilder.Entity("GoWatch.Models.FriendRequest", b =>
@@ -118,11 +101,15 @@ namespace GoWatch.Migrations
 
                     b.Property<int>("FanID");
 
+                    b.Property<int>("FriendID");
+
                     b.Property<string>("StatusRequest");
 
                     b.HasKey("FriendRequestID");
 
                     b.HasIndex("FanID");
+
+                    b.HasIndex("FriendID");
 
                     b.ToTable("FriendRequests");
                 });
@@ -141,14 +128,11 @@ namespace GoWatch.Migrations
 
                     b.Property<bool>("Going");
 
-                    b.Property<int>("RateEvent");
-
                     b.HasKey("GuestListID");
 
                     b.HasIndex("EventID");
 
-                    b.HasIndex("FanID")
-                        .IsUnique();
+                    b.HasIndex("FanID");
 
                     b.ToTable("GuestLists");
                 });
@@ -207,6 +191,9 @@ namespace GoWatch.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
+
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
@@ -246,6 +233,8 @@ namespace GoWatch.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -318,19 +307,24 @@ namespace GoWatch.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("GoWatch.Models.Event", b =>
+            modelBuilder.Entity("GoWatch.Data.ApplicationUser", b =>
                 {
-                    b.HasOne("GoWatch.Models.Event", "EventCreator")
-                        .WithMany()
-                        .HasForeignKey("EventCreatorEventID");
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<int?>("FanID");
+
+                    b.HasIndex("FanID");
+
+                    b.ToTable("ApplicationUser");
+
+                    b.HasDiscriminator().HasValue("ApplicationUser");
                 });
 
-            modelBuilder.Entity("GoWatch.Models.Friend", b =>
+            modelBuilder.Entity("GoWatch.Models.Fan", b =>
                 {
-                    b.HasOne("GoWatch.Models.Fan", "Fan")
+                    b.HasOne("GoWatch.Data.ApplicationUser", "ApplicationUser")
                         .WithMany()
-                        .HasForeignKey("FanID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ApplicationUserId");
                 });
 
             modelBuilder.Entity("GoWatch.Models.FriendRequest", b =>
@@ -338,6 +332,11 @@ namespace GoWatch.Migrations
                     b.HasOne("GoWatch.Models.Fan", "Fan")
                         .WithMany()
                         .HasForeignKey("FanID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("GoWatch.Models.Fan", "Friend")
+                        .WithMany()
+                        .HasForeignKey("FriendID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -349,8 +348,8 @@ namespace GoWatch.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("GoWatch.Models.Fan", "Fan")
-                        .WithOne("EventJunctionTable")
-                        .HasForeignKey("GoWatch.Models.GuestList", "FanID")
+                        .WithMany()
+                        .HasForeignKey("FanID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -397,6 +396,13 @@ namespace GoWatch.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("GoWatch.Data.ApplicationUser", b =>
+                {
+                    b.HasOne("GoWatch.Models.Fan")
+                        .WithMany("ApplicationUsers")
+                        .HasForeignKey("FanID");
                 });
 #pragma warning restore 612, 618
         }

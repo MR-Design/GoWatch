@@ -26,7 +26,7 @@ namespace GoWatch.Data
         public DbSet<Event> Events { get; set; }
         public DbSet<GuestList> GuestLists { get; set; }
         public DbSet<Fan> Fans { get; set; }
-        public DbSet<Friend> Friends { get; set; }
+        
         public DbSet<FriendRequest> FriendRequests { get; set; }
 
     }

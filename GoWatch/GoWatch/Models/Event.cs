@@ -12,7 +12,7 @@ namespace GoWatch.Models
         [Key]
         public int EventID { get; set; }
 
-        public Event EventCreator { get; set; }
+        
 
         public bool EventType { get; set;}
 
@@ -39,6 +39,6 @@ namespace GoWatch.Models
         [DataType(DataType.Currency)]
         public int Price { get; set; }
 
-        public int Rating { get; set; }
+        public int RateEvent { get; set; }
     }
 }

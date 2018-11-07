@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GoWatch.Migrations
 {
-    public partial class EditAddModels : Migration
+    public partial class initialmigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -23,37 +23,11 @@ namespace GoWatch.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUsers",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    UserName = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
-                    Email = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(nullable: false),
-                    PasswordHash = table.Column<string>(nullable: true),
-                    SecurityStamp = table.Column<string>(nullable: true),
-                    ConcurrencyStamp = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
-                    LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Events",
                 columns: table => new
                 {
                     EventID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    EventCreatorEventID = table.Column<int>(nullable: true),
                     EventType = table.Column<bool>(nullable: false),
                     Address = table.Column<string>(nullable: true),
                     City = table.Column<string>(nullable: true),
@@ -63,43 +37,11 @@ namespace GoWatch.Migrations
                     AwayTeam = table.Column<string>(nullable: true),
                     Rules = table.Column<string>(nullable: true),
                     Price = table.Column<int>(nullable: false),
-                    Rating = table.Column<int>(nullable: false)
+                    RateEvent = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Events", x => x.EventID);
-                    table.ForeignKey(
-                        name: "FK_Events_Events_EventCreatorEventID",
-                        column: x => x.EventCreatorEventID,
-                        principalTable: "Events",
-                        principalColumn: "EventID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Fans",
-                columns: table => new
-                {
-                    FanID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Username = table.Column<string>(nullable: true),
-                    FavoriteTeam = table.Column<string>(nullable: true),
-                    FirstName = table.Column<string>(nullable: true),
-                    Lastname = table.Column<string>(nullable: true),
-                    Address = table.Column<string>(nullable: true),
-                    ZipCode = table.Column<string>(nullable: true),
-                    City = table.Column<string>(nullable: true),
-                    State = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
-                    CardholderName = table.Column<string>(nullable: true),
-                    CreditCardNumber = table.Column<string>(nullable: true),
-                    CCV = table.Column<int>(nullable: false),
-                    ExpirationDate = table.Column<int>(nullable: false),
-                    RoutingNumber = table.Column<double>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Fans", x => x.FanID);
                 });
 
             migrationBuilder.CreateTable(
@@ -124,47 +66,6 @@ namespace GoWatch.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUserClaims",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    UserId = table.Column<string>(nullable: false),
-                    ClaimType = table.Column<string>(nullable: true),
-                    ClaimValue = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUserLogins",
-                columns: table => new
-                {
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
-                    ProviderDisplayName = table.Column<string>(nullable: true),
-                    UserId = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
-                    table.ForeignKey(
-                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
@@ -180,12 +81,35 @@ namespace GoWatch.Migrations
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<string>(nullable: false),
+                    ClaimType = table.Column<string>(nullable: true),
+                    ClaimValue = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserLogins",
+                columns: table => new
+                {
+                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
+                    ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
+                    ProviderDisplayName = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
                 });
 
             migrationBuilder.CreateTable(
@@ -200,12 +124,65 @@ namespace GoWatch.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Fans",
+                columns: table => new
+                {
+                    FanID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    FavoriteTeam = table.Column<string>(nullable: true),
+                    FirstName = table.Column<string>(nullable: true),
+                    Lastname = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(nullable: true),
+                    ZipCode = table.Column<string>(nullable: true),
+                    City = table.Column<string>(nullable: true),
+                    State = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    CardholderName = table.Column<string>(nullable: true),
+                    CreditCardNumber = table.Column<string>(nullable: true),
+                    CCV = table.Column<int>(nullable: false),
+                    ExpirationDate = table.Column<int>(nullable: false),
+                    RoutingNumber = table.Column<double>(nullable: false),
+                    ApplicationUserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Fans", x => x.FanID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    UserName = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
+                    Email = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(nullable: false),
+                    PasswordHash = table.Column<string>(nullable: true),
+                    SecurityStamp = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
+                    LockoutEnabled = table.Column<bool>(nullable: false),
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    Discriminator = table.Column<string>(nullable: false),
+                    FanID = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_AspNetUsers_Fans_FanID",
+                        column: x => x.FanID,
+                        principalTable: "Fans",
+                        principalColumn: "FanID",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -215,6 +192,7 @@ namespace GoWatch.Migrations
                     FriendRequestID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     FanID = table.Column<int>(nullable: false),
+                    FriendID = table.Column<int>(nullable: false),
                     StatusRequest = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -225,26 +203,13 @@ namespace GoWatch.Migrations
                         column: x => x.FanID,
                         principalTable: "Fans",
                         principalColumn: "FanID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Friends",
-                columns: table => new
-                {
-                    FriendID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    FanID = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Friends", x => x.FriendID);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Friends_Fans_FanID",
-                        column: x => x.FanID,
+                        name: "FK_FriendRequests_Fans_FriendID",
+                        column: x => x.FriendID,
                         principalTable: "Fans",
                         principalColumn: "FanID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -256,8 +221,7 @@ namespace GoWatch.Migrations
                     FanID = table.Column<int>(nullable: false),
                     EventID = table.Column<int>(nullable: false),
                     Going = table.Column<bool>(nullable: false),
-                    Arrived = table.Column<bool>(nullable: false),
-                    RateEvent = table.Column<int>(nullable: false)
+                    Arrived = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -304,6 +268,11 @@ namespace GoWatch.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_FanID",
+                table: "AspNetUsers",
+                column: "FanID");
+
+            migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
@@ -316,9 +285,9 @@ namespace GoWatch.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Events_EventCreatorEventID",
-                table: "Events",
-                column: "EventCreatorEventID");
+                name: "IX_Fans_ApplicationUserId",
+                table: "Fans",
+                column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_FriendRequests_FanID",
@@ -326,9 +295,9 @@ namespace GoWatch.Migrations
                 column: "FanID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Friends_FanID",
-                table: "Friends",
-                column: "FanID");
+                name: "IX_FriendRequests_FriendID",
+                table: "FriendRequests",
+                column: "FriendID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_GuestLists_EventID",
@@ -338,12 +307,55 @@ namespace GoWatch.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_GuestLists_FanID",
                 table: "GuestLists",
-                column: "FanID",
-                unique: true);
+                column: "FanID");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AspNetUserRoles_AspNetUsers_UserId",
+                table: "AspNetUserRoles",
+                column: "UserId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AspNetUserClaims_AspNetUsers_UserId",
+                table: "AspNetUserClaims",
+                column: "UserId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AspNetUserLogins_AspNetUsers_UserId",
+                table: "AspNetUserLogins",
+                column: "UserId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                table: "AspNetUserTokens",
+                column: "UserId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Fans_AspNetUsers_ApplicationUserId",
+                table: "Fans",
+                column: "ApplicationUserId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Fans_AspNetUsers_ApplicationUserId",
+                table: "Fans");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -363,19 +375,16 @@ namespace GoWatch.Migrations
                 name: "FriendRequests");
 
             migrationBuilder.DropTable(
-                name: "Friends");
-
-            migrationBuilder.DropTable(
                 name: "GuestLists");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Events");
 
             migrationBuilder.DropTable(
-                name: "Events");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Fans");

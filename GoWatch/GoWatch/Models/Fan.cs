@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GoWatch.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -13,10 +14,7 @@ namespace GoWatch.Models
         [Key]
         public int FanID { get; set; }
 
-        [ForeignKey("GuestList")]
-        public string Username  { get; set; }
-
-        public GuestList EventJunctionTable { get; set; }
+      
 
        
 
@@ -52,5 +50,12 @@ namespace GoWatch.Models
         public int ExpirationDate { get; set; }
 
         public double RoutingNumber { get; set; }
+
+        [ForeignKey("ApplicationUser")]
+        public string ApplicationUserId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
+
+
+        public IEnumerable<ApplicationUser> ApplicationUsers { get; set; }
     }
 }
