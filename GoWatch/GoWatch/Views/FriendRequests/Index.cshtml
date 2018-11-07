@@ -1,0 +1,47 @@
+﻿@model IEnumerable<GoWatch.Models.FriendRequest>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Fan)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Friend)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StatusRequest)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fan.FanID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Friend.FanID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StatusRequest)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.FriendRequestID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.FriendRequestID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.FriendRequestID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

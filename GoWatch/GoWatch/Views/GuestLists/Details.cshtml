@@ -1,0 +1,42 @@
+﻿@model GoWatch.Models.GuestList
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>GuestList</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Fan)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Fan.FanID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Event)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Event.EventID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Going)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Going)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Arrived)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Arrived)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.GuestListID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

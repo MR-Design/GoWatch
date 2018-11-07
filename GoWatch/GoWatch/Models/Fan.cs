@@ -33,10 +33,7 @@ namespace GoWatch.Models
 
         public string State { get; set; }
 
-        [DataType(DataType.EmailAddress)]
-        [EmailAddress]
-        public string Email { get; set; }
-
+    
         public string CardholderName { get; set; }
 
         [DataType(DataType.CreditCard)]
