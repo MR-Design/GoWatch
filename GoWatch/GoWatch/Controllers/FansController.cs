@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GoWatch.Data;
+
+using System.Security.Claims;
 using GoWatch.Models;
 
 namespace GoWatch.Controllers
@@ -29,6 +29,8 @@ namespace GoWatch.Controllers
         // GET: Fans/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+
+
             if (id == null)
             {
                 return NotFound();
@@ -72,6 +74,9 @@ namespace GoWatch.Controllers
         // GET: Fans/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+           // var currentuser = User.FindFirst(ClaimTypes.Email).Value; // will give the user's Email
+            //Fan fans = _context.Fans.Where(s => s.ApplicationUserId == currentuser).SingleOrDefault();
+           
             if (id == null)
             {
                 return NotFound();
