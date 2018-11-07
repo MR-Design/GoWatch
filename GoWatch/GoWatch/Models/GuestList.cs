@@ -7,19 +7,24 @@ using System.Threading.Tasks;
 
 namespace GoWatch.Models
 {
-    public class EventJunctionTable
+    public class GuestList
     {
-        [Key]
-        public int ID { get; set; }
+        public int GuestListID { get; set; }
 
         [ForeignKey("Fan")]
-        public string FanUsername { get; set; }
-
+        public int FanID { get; set; }
         public Fan Fan { get; set; }
 
-        [ForeignKey("EventCreator")]
+        [ForeignKey("Event")]
         public int EventID { get; set; }
+        public Event Event { get; set; }
 
-        public Event EventCreator { get; set; }
+        public bool Going { get; set; }
+        public bool Arrived { get; set; }
+        public int RateEvent { get; set; }
+
+
+
+
     }
 }

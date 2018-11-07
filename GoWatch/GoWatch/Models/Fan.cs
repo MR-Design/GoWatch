@@ -11,7 +11,14 @@ namespace GoWatch.Models
     {
 
         [Key]
-        public string UserName { get; set; }
+        public int FanID { get; set; }
+
+        [ForeignKey("GuestList")]
+        public string Username  { get; set; }
+
+        public GuestList EventJunctionTable { get; set; }
+
+       
 
         public string FavoriteTeam { get; set; }
 

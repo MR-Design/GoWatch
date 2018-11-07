@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace GoWatch.Data.Migrations
+namespace GoWatch.Migrations
 {
-    public partial class CreateIdentitySchema : Migration
+    public partial class EditAddModels : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -45,6 +45,61 @@ namespace GoWatch.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Events",
+                columns: table => new
+                {
+                    EventID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    EventCreatorEventID = table.Column<int>(nullable: true),
+                    EventType = table.Column<bool>(nullable: false),
+                    Address = table.Column<string>(nullable: true),
+                    City = table.Column<string>(nullable: true),
+                    State = table.Column<string>(nullable: true),
+                    ZipCode = table.Column<int>(nullable: false),
+                    HomeTeam = table.Column<string>(nullable: true),
+                    AwayTeam = table.Column<string>(nullable: true),
+                    Rules = table.Column<string>(nullable: true),
+                    Price = table.Column<int>(nullable: false),
+                    Rating = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Events", x => x.EventID);
+                    table.ForeignKey(
+                        name: "FK_Events_Events_EventCreatorEventID",
+                        column: x => x.EventCreatorEventID,
+                        principalTable: "Events",
+                        principalColumn: "EventID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Fans",
+                columns: table => new
+                {
+                    FanID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Username = table.Column<string>(nullable: true),
+                    FavoriteTeam = table.Column<string>(nullable: true),
+                    FirstName = table.Column<string>(nullable: true),
+                    Lastname = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(nullable: true),
+                    ZipCode = table.Column<string>(nullable: true),
+                    City = table.Column<string>(nullable: true),
+                    State = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    CardholderName = table.Column<string>(nullable: true),
+                    CreditCardNumber = table.Column<string>(nullable: true),
+                    CCV = table.Column<int>(nullable: false),
+                    ExpirationDate = table.Column<int>(nullable: false),
+                    RoutingNumber = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Fans", x => x.FanID);
                 });
 
             migrationBuilder.CreateTable(
@@ -153,6 +208,74 @@ namespace GoWatch.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "FriendRequests",
+                columns: table => new
+                {
+                    FriendRequestID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    FanID = table.Column<int>(nullable: false),
+                    StatusRequest = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FriendRequests", x => x.FriendRequestID);
+                    table.ForeignKey(
+                        name: "FK_FriendRequests_Fans_FanID",
+                        column: x => x.FanID,
+                        principalTable: "Fans",
+                        principalColumn: "FanID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Friends",
+                columns: table => new
+                {
+                    FriendID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    FanID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Friends", x => x.FriendID);
+                    table.ForeignKey(
+                        name: "FK_Friends_Fans_FanID",
+                        column: x => x.FanID,
+                        principalTable: "Fans",
+                        principalColumn: "FanID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GuestLists",
+                columns: table => new
+                {
+                    GuestListID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    FanID = table.Column<int>(nullable: false),
+                    EventID = table.Column<int>(nullable: false),
+                    Going = table.Column<bool>(nullable: false),
+                    Arrived = table.Column<bool>(nullable: false),
+                    RateEvent = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GuestLists", x => x.GuestListID);
+                    table.ForeignKey(
+                        name: "FK_GuestLists_Events_EventID",
+                        column: x => x.EventID,
+                        principalTable: "Events",
+                        principalColumn: "EventID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_GuestLists_Fans_FanID",
+                        column: x => x.FanID,
+                        principalTable: "Fans",
+                        principalColumn: "FanID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -191,6 +314,32 @@ namespace GoWatch.Data.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Events_EventCreatorEventID",
+                table: "Events",
+                column: "EventCreatorEventID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FriendRequests_FanID",
+                table: "FriendRequests",
+                column: "FanID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Friends_FanID",
+                table: "Friends",
+                column: "FanID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GuestLists_EventID",
+                table: "GuestLists",
+                column: "EventID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GuestLists_FanID",
+                table: "GuestLists",
+                column: "FanID",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -211,10 +360,25 @@ namespace GoWatch.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "FriendRequests");
+
+            migrationBuilder.DropTable(
+                name: "Friends");
+
+            migrationBuilder.DropTable(
+                name: "GuestLists");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Events");
+
+            migrationBuilder.DropTable(
+                name: "Fans");
         }
     }
 }

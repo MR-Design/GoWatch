@@ -10,7 +10,11 @@ namespace GoWatch.Models
     public class Event
     {
         [Key]
-        public int Id { get; set; }
+        public int EventID { get; set; }
+
+        public Event EventCreator { get; set; }
+
+        public bool EventType { get; set;}
 
         [DataType(DataType.DateTime)]
         DateTime DateTime { get; set; }
