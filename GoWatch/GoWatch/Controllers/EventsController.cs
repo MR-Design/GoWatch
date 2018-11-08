@@ -54,7 +54,7 @@ namespace GoWatch.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EventID,EventType,Address,City,State,ZipCode,HomeTeam,AwayTeam,Rules,Price,RateEvent")] Event @event)
+        public async Task<IActionResult> Create([Bind("EventID,EventType,Address,City,State,ZipCode,HomeTeam,AwayTeam,Rules,Price")] Event @event)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace GoWatch.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("EventID,EventType,Address,City,State,ZipCode,HomeTeam,AwayTeam,Rules,Price,RateEvent")] Event @event)
+        public async Task<IActionResult> Edit(int id, [Bind("EventID,EventType,Address,City,State,ZipCode,HomeTeam,AwayTeam,Rules,Price")] Event @event)
         {
             if (id != @event.EventID)
             {
