@@ -202,13 +202,13 @@ namespace GoWatch.Migrations
                         column: x => x.FanID,
                         principalTable: "Fans",
                         principalColumn: "FanID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_FriendRequests_Fans_FriendID",
                         column: x => x.FriendID,
                         principalTable: "Fans",
                         principalColumn: "FanID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(

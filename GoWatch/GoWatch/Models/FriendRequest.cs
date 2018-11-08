@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace GoWatch.Models
 {
     public class FriendRequest
-    {
+    {   
         [Key]
         public int FriendRequestID { get; set; }
 
