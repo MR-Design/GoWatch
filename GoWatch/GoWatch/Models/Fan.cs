@@ -37,7 +37,7 @@ namespace GoWatch.Models
         public string CardholderName { get; set; }
 
         [DataType(DataType.CreditCard)]
-        public string CreditCardNumber { get; set; }
+        public int CreditCardNumber { get; set; }
 
         [Required(ErrorMessage = "Insert the 3 digit code on the back of your card")]
         public int CCV { get; set; }

@@ -7,6 +7,9 @@ using GoWatch.Data;
 
 using System.Security.Claims;
 using GoWatch.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Http;
+using System;
 
 namespace GoWatch.Controllers
 {
@@ -61,6 +64,11 @@ namespace GoWatch.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("FanID,FavoriteTeam,FirstName,Lastname,Address,ZipCode,City,State,CardholderName,CreditCardNumber,CCV,ExpirationDate,RoutingNumber,ApplicationUserId")] Fan fan)
         {
+            Fan fun = _context.Fans.Where(s => s.ApplicationUserId == User.Identity.GetUserId().ToString()).SingleOrDefault();
+
+            //var ThisUser = _context.Fans.Where(s => s.ApplicationUserId == fan.FanID.ToString()).SingleOrDefault();
+            fan.ApplicationUserId = User.Identity.GetUserId();
+            
             if (ModelState.IsValid)
             {
                 _context.Add(fan);
@@ -72,23 +80,12 @@ namespace GoWatch.Controllers
         }
 
         // GET: Fans/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public  ActionResult Edit()
         {
-           // var currentuser = User.FindFirst(ClaimTypes.Email).Value; // will give the user's Email
-            //Fan fans = _context.Fans.Where(s => s.ApplicationUserId == currentuser).SingleOrDefault();
-           
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var fan = await _context.Fans.FindAsync(id);
-            if (fan == null)
-            {
-                return NotFound();
-            }
-            ViewData["ApplicationUserId"] = new SelectList(_context.Set<ApplicationUser>(), "Id", "Id", fan.ApplicationUserId);
-            return View(fan);
+            var currentUser = User.Identity.GetUserId();
+            Fan fans = _context.Fans.Where(s => s.ApplicationUserId == currentUser).SingleOrDefault();
+            fans.ApplicationUserId = User.Identity.GetUserId();           
+            return View(fans);
         }
 
         // POST: Fans/Edit/5
@@ -96,35 +93,29 @@ namespace GoWatch.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("FanID,FavoriteTeam,FirstName,Lastname,Address,ZipCode,City,State,CardholderName,CreditCardNumber,CCV,ExpirationDate,RoutingNumber,ApplicationUserId")] Fan fan)
+        public ActionResult Edit(int id, FormCollection collection)
         {
-            if (id != fan.FanID)
-            {
-                return NotFound();
-            }
+            Fan s = _context.Fans.Where(f => f.FanID == id).SingleOrDefault();
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(fan);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!FanExists(fan.FanID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["ApplicationUserId"] = new SelectList(_context.Set<ApplicationUser>(), "Id", "Id", fan.ApplicationUserId);
-            return View(fan);
+            s.FavoriteTeam = collection["FavoriteTeam"];
+            s.FirstName = collection["FirstName"];
+            s.Lastname = collection["Lastname"];
+            s.Address = collection["Address"];
+            s.ZipCode = collection["ZipCode"];
+            s.City = collection["City"];
+            s.State = collection["State"];
+            s.CardholderName = collection["CardholderName"];
+            s.CCV = Int32.Parse(collection["CCV"]);
+            s.CreditCardNumber = Int32.Parse(collection["CreditCardNumber"]);
+            s.ExpirationDate = Int32.Parse(collection["ExpirationDate"]);
+            s.RoutingNumber = Int32.Parse(collection["RoutingNumber"]);
+               
+
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
+            
         }
 
         // GET: Fans/Delete/5

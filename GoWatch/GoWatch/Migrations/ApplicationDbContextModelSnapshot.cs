@@ -66,7 +66,7 @@ namespace GoWatch.Migrations
 
                     b.Property<string>("City");
 
-                    b.Property<string>("CreditCardNumber");
+                    b.Property<int>("CreditCardNumber");
 
                     b.Property<int>("ExpirationDate");
 
