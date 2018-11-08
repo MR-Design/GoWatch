@@ -23,14 +23,25 @@ namespace GoWatch.Controllers
         }
 
         // GET: Fans
-        public async Task<IActionResult> Index()
+        //public async Task<IActionResult> Index()
+        //{
+        //    var applicationDbContext = _context.Fans.Include(f => f.ApplicationUser);
+        //    return View(await applicationDbContext.ToListAsync());
+        //}
+        public ActionResult Index(string searchString)
         {
-            var applicationDbContext = _context.Fans.Include(f => f.ApplicationUser);
-            return View(await applicationDbContext.ToListAsync());
-        }
+            var Word = _context.Fans.ToList();
+                        
 
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                Word = Word.Where(s => s.FavoriteTeam.Contains(searchString)).ToList(); // I need to search in the hole database
+            }
+
+            return View( Word);
+        }
         // GET: Fans/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> FanProfile(int? id)
         {
 
 
