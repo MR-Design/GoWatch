@@ -4,14 +4,16 @@ using GoWatch.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GoWatch.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181107163915_UpdateMigraton")]
+    partial class UpdateMigraton
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,7 +68,7 @@ namespace GoWatch.Migrations
 
                     b.Property<string>("City");
 
-                    b.Property<int>("CreditCardNumber");
+                    b.Property<string>("CreditCardNumber");
 
                     b.Property<int>("ExpirationDate");
 
