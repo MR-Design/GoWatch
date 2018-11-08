@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GoWatch.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181108052744_create")]
-    partial class create
+    [Migration("20181108171510_fixing datetime think")]
+    partial class fixingdatetimethink
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -70,15 +70,13 @@ namespace GoWatch.Migrations
 
                     b.Property<int>("CreditCardNumber");
 
-                    b.Property<int>("ExpirationDate");
+                    b.Property<DateTime?>("ExpirationDate");
 
                     b.Property<string>("FavoriteTeam");
 
                     b.Property<string>("FirstName");
 
                     b.Property<string>("Lastname");
-
-                    b.Property<double>("RoutingNumber");
 
                     b.Property<string>("State");
 

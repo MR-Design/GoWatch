@@ -17,7 +17,7 @@ namespace GoWatch.Models
         public bool EventType { get; set;}
 
         [DataType(DataType.DateTime)]
-        DateTime DateTime { get; set; }
+        DateTime? DateTime { get; set; }
 
         public string Address { get; set; }
 

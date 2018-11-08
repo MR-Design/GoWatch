@@ -62,7 +62,7 @@ namespace GoWatch.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FanID,FavoriteTeam,FirstName,Lastname,Address,ZipCode,City,State,CardholderName,CreditCardNumber,CCV,ExpirationDate,RoutingNumber,ApplicationUserId")] Fan fan)
+        public async Task<IActionResult> Create([Bind("FanID,FavoriteTeam,FirstName,Lastname,Address,ZipCode,City,State")] Fan fan)
         {
             Fan fun = _context.Fans.Where(s => s.ApplicationUserId == User.Identity.GetUserId().ToString()).SingleOrDefault();
 
@@ -82,6 +82,7 @@ namespace GoWatch.Controllers
         // GET: Fans/Edit/5
         public  ActionResult Edit()
         {
+           
             var currentUser = User.Identity.GetUserId();
             Fan fans = _context.Fans.Where(s => s.ApplicationUserId == currentUser).SingleOrDefault();
             fans.ApplicationUserId = User.Identity.GetUserId();           
@@ -93,13 +94,11 @@ namespace GoWatch.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit( IFormCollection collection)
         {
-            Fan s = _context.Fans.Where(f => f.FanID == id).SingleOrDefault();
+            var currentUser = User.Identity.GetUserId();
+            Fan s = _context.Fans.Where(f => f.ApplicationUserId == currentUser).SingleOrDefault();
 
-            s.FavoriteTeam = collection["FavoriteTeam"];
-            s.FirstName = collection["FirstName"];
-            s.Lastname = collection["Lastname"];
             s.Address = collection["Address"];
             s.ZipCode = collection["ZipCode"];
             s.City = collection["City"];
@@ -107,9 +106,8 @@ namespace GoWatch.Controllers
             s.CardholderName = collection["CardholderName"];
             s.CCV = Int32.Parse(collection["CCV"]);
             s.CreditCardNumber = Int32.Parse(collection["CreditCardNumber"]);
-            s.ExpirationDate = Int32.Parse(collection["ExpirationDate"]);
-            s.RoutingNumber = Int32.Parse(collection["RoutingNumber"]);
-               
+            s.ExpirationDate = DateTime.Parse(collection["ExpirationDate"]);
+
 
 
             _context.SaveChanges();

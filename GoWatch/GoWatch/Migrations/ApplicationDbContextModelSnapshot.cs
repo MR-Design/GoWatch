@@ -68,15 +68,13 @@ namespace GoWatch.Migrations
 
                     b.Property<int>("CreditCardNumber");
 
-                    b.Property<int>("ExpirationDate");
+                    b.Property<DateTime?>("ExpirationDate");
 
                     b.Property<string>("FavoriteTeam");
 
                     b.Property<string>("FirstName");
 
                     b.Property<string>("Lastname");
-
-                    b.Property<double>("RoutingNumber");
 
                     b.Property<string>("State");
 

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GoWatch.Migrations
 {
-    public partial class create : Migration
+    public partial class fixingdatetimethink : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -142,8 +142,7 @@ namespace GoWatch.Migrations
                     CardholderName = table.Column<string>(nullable: true),
                     CreditCardNumber = table.Column<int>(nullable: false),
                     CCV = table.Column<int>(nullable: false),
-                    ExpirationDate = table.Column<int>(nullable: false),
-                    RoutingNumber = table.Column<double>(nullable: false),
+                    ExpirationDate = table.Column<DateTime>(nullable: true),
                     ApplicationUserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
