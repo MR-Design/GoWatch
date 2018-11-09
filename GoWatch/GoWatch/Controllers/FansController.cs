@@ -38,7 +38,7 @@ namespace GoWatch.Controllers
                 Word = Word.Where(s => s.FavoriteTeam.Contains(searchString)).ToList(); // I need to search in the hole database
             }
 
-            return View( Word);
+            return View(Word);
         }
         // GET: Fans/Details/5
         public async Task<IActionResult> FanProfile(int? id)
@@ -76,15 +76,16 @@ namespace GoWatch.Controllers
         public async Task<IActionResult> Create([Bind("FanID,FavoriteTeam,FirstName,Lastname,Address,ZipCode,City,State")] Fan fan)
         {
             Fan fun = _context.Fans.Where(s => s.ApplicationUserId == User.Identity.GetUserId().ToString()).SingleOrDefault();
-
-            //var ThisUser = _context.Fans.Where(s => s.ApplicationUserId == fan.FanID.ToString()).SingleOrDefault();
             fan.ApplicationUserId = User.Identity.GetUserId();
-            
+            //var ThisUser = _context.Fans.Where(s => s.ApplicationUserId == fan.FanID.ToString()).SingleOrDefault();
+
+
             if (ModelState.IsValid)
             {
                 _context.Add(fan);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Events");
+
             }
             ViewData["ApplicationUserId"] = new SelectList(_context.Set<ApplicationUser>(), "Id", "Id", fan.ApplicationUserId);
             return View(fan);
@@ -111,7 +112,7 @@ namespace GoWatch.Controllers
             Fan s = _context.Fans.Where(f => f.ApplicationUserId == currentUser).SingleOrDefault();
 
             s.Address = collection["Address"];
-            s.ZipCode = collection["ZipCode"];
+            s.ZipCode = Int32.Parse(collection["ZipCode"]);
             s.City = collection["City"];
             s.State = collection["State"];
             s.CardholderName = collection["CardholderName"];
