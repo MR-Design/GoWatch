@@ -74,6 +74,14 @@
 
 
         </dl>
+        
+        <div class="alert alert-dismissible alert-danger">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>
+                &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp;
+            </strong> <a class="btn btn-danger " asp-action="Index" asp-controller="Events">Pay </a> 
+        </div>
+
     </div>
 
     <div class="col-xs-6">
@@ -83,15 +91,17 @@
     
 </div>
 <div>
-    <div class=" yyy btn-group btn-group-justified" style="color:#518EF5">
+    <div class=" btn-group btn-group-justified" style="color:#518EF5">
         <a asp-action="Index" asp-controller="Events" class="btn btn-default">Book</a>
         <a  asp-action="Index" asp-controller="GuestList" class="btn btn-default">See who Join</a>
         <a  asp-action="Index" asp-controller="Events" asp-route-id="" class="btn btn-default">Get Direction</a>
     </div>
 
     <style>
-      
-         .col-xs-6 {
+        .col-xs-6 .btn-danger {
+            text-align: center;
+        }
+        .col-xs-6 {
             background-color: beige;
             margin-bottom: 2%;
             margin-top: 2%;
