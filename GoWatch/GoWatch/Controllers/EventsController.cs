@@ -41,9 +41,8 @@ namespace GoWatch.Controllers
         // GET: Events
         public  ActionResult Index(string searchString)
         {
-            var Word = _context.Events.ToList();
 
-        
+            var Word = _context.Events.ToList();
             if (!String.IsNullOrEmpty(searchString))
             {
                 Word = Word.Where(s => s.AwayTeam == searchString || s.HomeTeam == searchString).ToList(); // I need to search in the hole database
