@@ -13,6 +13,7 @@ namespace GoWatch.Models
         public int FriendRequestID { get; set; }
 
         [ForeignKey("Fan")]
+       
         public int FanID { get; set; }
         public virtual Fan Fan { get; set; }
 

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GoWatch.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181108052744_create")]
-    partial class create
+    [Migration("20181108154425_initial migration")]
+    partial class initialmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

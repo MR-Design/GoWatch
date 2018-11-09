@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GoWatch.Data;
 using GoWatch.Models;
+using Microsoft.AspNet.Identity;
 
 namespace GoWatch.Controllers
 {
@@ -22,8 +23,9 @@ namespace GoWatch.Controllers
         // GET: FriendRequests
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.FriendRequests.Include(f => f.Fan).Include(f => f.Friend);
+            var applicationDbContext = _context.Fans.Include(f => f.ApplicationUser);
             return View(await applicationDbContext.ToListAsync());
+
         }
 
         // GET: FriendRequests/Details/5
@@ -61,6 +63,10 @@ namespace GoWatch.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("FriendRequestID,FanID,FriendID,StatusRequest")] FriendRequest friendRequest)
         {
+            Fan fan = _context.Fans.Where(s => s.ApplicationUserId == User.Identity.GetUserId().ToString()).SingleOrDefault();
+
+            //var ThisUser = _context.Fans.Where(s => s.ApplicationUserId == fan.FanID.ToString()).SingleOrDefault();
+            fan.ApplicationUserId = User.Identity.GetUserId();
             if (ModelState.IsValid)
             {
                 _context.Add(friendRequest);
@@ -71,6 +77,28 @@ namespace GoWatch.Controllers
             ViewData["FriendID"] = new SelectList(_context.Fans, "FanID", "FanID", friendRequest.FriendID);
             return View(friendRequest);
         }
+        //[HttpPost]
+        // [ValidateAntiForgeryToken]
+        public ActionResult AddFriend(int id)
+        {
+            Fan fan = _context.Fans.Where(s => s.ApplicationUserId == User.Identity.GetUserId().ToString()).SingleOrDefault();
+            // fan.ApplicationUserId = User.Identity.GetUserId();
+
+            FriendRequest fr = new FriendRequest();
+            fr.FanID = fan.FanID;
+            fr.FriendID = id;
+            string status = null;
+            fr.StatusRequest = status;
+
+            _context.FriendRequests.Add(fr);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
+            // return View();
+
+         
+        }
+
 
         // GET: FriendRequests/Edit/5
         public async Task<IActionResult> Edit(int? id)
