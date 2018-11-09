@@ -19,10 +19,38 @@ namespace GoWatch.Controllers
             _context = context;
         }
 
-        // GET: Events
-        public async Task<IActionResult> Index()
+
+        public ActionResult SearchEvents(string searchString)
         {
-            return View(await _context.Events.ToListAsync());
+            var Word = _context.Events.ToList();
+            var Word2 = _context.Events.ToList();
+
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                Word = Word.Where(s => s.AwayTeam.Contains(searchString)).ToList(); // I need to search in the hole database
+                Word2 = Word2.Where(s => s.HomeTeam.Contains(searchString)).ToList(); // I need to search in the hole database
+
+            }
+            var w = Word;
+            Word = Word2;
+            return View(w);
+        }
+
+
+        // GET: Events
+        public  ActionResult Index(string searchString)
+        {
+            var Word = _context.Events.ToList();
+
+        
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                Word = Word.Where(s => s.AwayTeam == searchString || s.HomeTeam == searchString).ToList(); // I need to search in the hole database
+
+            }
+            return View(Word);
+         
         }
 
         // GET: Events/Details/5

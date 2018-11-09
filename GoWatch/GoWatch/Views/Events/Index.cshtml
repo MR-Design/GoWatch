@@ -17,7 +17,7 @@
 
 
 
-        <form asp-controller="Fans" asp-action="SearchEvents" class="navbar-form navbar-left" role="search">
+        <form asp-controller="Events" asp-action="Index" class="navbar-form navbar-left" role="search">
             <div class="form-group">
                 <input type="text" class="form-control" name="SearchString" placeholder="Search your Team">
             </div>
@@ -27,9 +27,11 @@
     </div>
 </nav>
 
-<table class="table">
+
+
+<table class="table table-striped table-hover">
     <thead>
-        <tr>
+        <tr class="success">
             <th>
                 @Html.DisplayNameFor(model => model.EventsPlace)
             </th>
@@ -104,3 +106,11 @@
         }
     </tbody>
 </table>
+
+<div class="alert alert-dismissible alert-warning">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <h4>Create Youe Events!</h4>
+    <p>Enjoy Watching your Game while making by creating an events from Home Only 1% of Any Price you Set up <br />
+    Make an Events at your prefered bar
+    <a asp-action="create" asp-controller="Events" class="alert-link">CLICK HERE & GET 50% Of your Drinks if 20 Persons Attend.</a>.</p>
+</div>
