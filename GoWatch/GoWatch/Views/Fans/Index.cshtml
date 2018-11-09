@@ -1,14 +1,15 @@
-﻿@model IEnumerable<GoWatch.Models.Fan>
+﻿
+@model IEnumerable<GoWatch.Models.Fan>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
+
+
+
 <table class="table">
     <thead>
         <tr>
@@ -33,12 +34,13 @@
             <th>
                 @Html.DisplayNameFor(model => model.State)
             </th>
-          
-           
+
+
             <th></th>
         </tr>
     </thead>
     <tbody>
+<<<<<<< HEAD
 @foreach (var item in Model) {
         <tr>
             <td>
@@ -88,5 +90,81 @@
             </td>
         </tr>
 }
+=======
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FavoriteTeam)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lastname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ZipCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.State)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CardholderName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreditCardNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CCV)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExpirationDate)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApplicationUser.Id)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.FanID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.FanID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.FanID">Delete</a>
+                </td>
+            </tr>
+        }
+>>>>>>> e4aae5185ac5ded2c681dbd8c76d7901f936b296
     </tbody>
 </table>
+
+
+
+
+
+
+
+
+
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+
+
+
+            <form asp-controller="Fans" asp-action="Index"  class="navbar-form navbar-left" role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="SearchString" placeholder="Search your Team">
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+
+        </div>
+    </nav>
+
+
+
+

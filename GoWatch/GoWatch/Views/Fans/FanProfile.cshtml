@@ -1,0 +1,44 @@
+﻿@model GoWatch.Models.Fan
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+<div>
+    <h4>Profile</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FavoriteTeam)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FavoriteTeam)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.City)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.City)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.State)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.State)
+        </dd>
+
+    </dl>
+</div>
+
+<div class="col-md-offset-2 col-md-10">
+    <a asp-action="AddFiend" asp-route-id="@Model.FanID">Send Friend Request</a>
+</div>

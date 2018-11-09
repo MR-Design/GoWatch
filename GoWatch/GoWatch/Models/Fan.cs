@@ -14,39 +14,37 @@ namespace GoWatch.Models
         [Key]
         public int FanID { get; set; }
 
-      
-
-       
-
+        [Display(Name = "Favorite Team")]
         public string FavoriteTeam { get; set; }
 
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
+        [Display(Name = "Last name")]
         public string Lastname { get; set; }
 
         public string Address { get; set; }
 
-        [DataType(DataType.PostalCode)]
-        public string ZipCode { get; set; }
+        [Display(Name = "Zip Code")]
+        public int ZipCode { get; set; }
 
         public string City { get; set; }
 
         public string State { get; set; }
 
-    
+        [Display(Name = "Card holder Name")]
         public string CardholderName { get; set; }
 
-        [DataType(DataType.CreditCard)]
+        [Display(Name = "Credit Card Number")]
         public int CreditCardNumber { get; set; }
 
-        [Required(ErrorMessage = "Insert the 3 digit code on the back of your card")]
+
         public int CCV { get; set; }
 
-        [DataType(DataType.Date)]
-        [Required(ErrorMessage = "Add the expiration date shown at the bottom of your card")]
-        public int ExpirationDate { get; set; }
 
-        public double RoutingNumber { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime? ExpirationDate { get; set; }
 
         [ForeignKey("ApplicationUser")]
         public string ApplicationUserId { get; set; }

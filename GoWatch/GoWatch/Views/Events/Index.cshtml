@@ -2,18 +2,44 @@
 
 @{
     ViewData["Title"] = "Index";
+
 }
 
-<h2>Index</h2>
+<h2></h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    @DateTime.Now
+    @*<a asp-action="Create">Create New</a>*@
 </p>
-<table class="table">
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+
+
+
+        <form asp-controller="Events" asp-action="Index" class="navbar-form navbar-left" role="search">
+            <div class="form-group">
+                <input type="text" class="form-control" name="SearchString" placeholder="Search your Team">
+            </div>
+            <button type="submit" class="btn btn-default">Search</button>
+        </form>
+
+    </div>
+</nav>
+
+
+
+<table class="table table-striped table-hover">
     <thead>
-        <tr>
+        <tr class="success">
             <th>
-                @Html.DisplayNameFor(model => model.EventType)
+                @Html.DisplayNameFor(model => model.EventsPlace)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HomeTeam)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AwayTeam)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Address)
@@ -27,63 +53,64 @@
             <th>
                 @Html.DisplayNameFor(model => model.ZipCode)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HomeTeam)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AwayTeam)
-            </th>
+
             <th>
                 @Html.DisplayNameFor(model => model.Rules)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Price)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RateEvent)
-            </th>
+
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.EventType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.City)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.State)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ZipCode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HomeTeam)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AwayTeam)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rules)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RateEvent)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.EventID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.EventID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.EventID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EventsPlace)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HomeTeam)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AwayTeam)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.State)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ZipCode)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rules)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+
+                <td>
+
+                    <a class="btn btn-success" asp-action="Details" asp-route-id="@item.EventID">Join</a>
+
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<div class="alert alert-dismissible alert-warning">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <h4>Create Youe Events!</h4>
+    <p>Enjoy Watching your Game while making by creating an events from Home Only 1% of Any Price you Set up <br />
+    Make an Events at your prefered bar
+    <a asp-action="create" asp-controller="Events" class="alert-link">CLICK HERE & GET 50% Of your Drinks if 20 Persons Attend.</a>.</p>
+</div>

@@ -12,12 +12,13 @@ namespace GoWatch.Models
         [Key]
         public int EventID { get; set; }
 
-        
+        [Display(Name = "Event Place")]
+        public string EventsPlace { get; set; }
 
         public bool EventType { get; set;}
 
         [DataType(DataType.DateTime)]
-        DateTime DateTime { get; set; }
+        DateTime? DateTime { get; set; }
 
         public string Address { get; set; }
 
@@ -25,20 +26,23 @@ namespace GoWatch.Models
 
         public string State { get; set; }
 
+        [Display(Name = "Zip Code")]
         [DataType(DataType.PostalCode)]
         public int ZipCode { get; set; }
 
+        [Display(Name = "Home Team")]
         public string HomeTeam { get; set; }
 
-
+        [Display(Name = "Away Team")]
         public string AwayTeam { get; set; }
 
         [DataType(DataType.Text)]
         public string Rules { get; set; }
 
         [DataType(DataType.Currency)]
-        public int Price { get; set; }
+        public double Price { get; set; }
 
+        [Display(Name = "Rate Event")]
         public int RateEvent { get; set; }
     }
 }
