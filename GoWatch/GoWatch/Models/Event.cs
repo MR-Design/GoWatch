@@ -41,6 +41,7 @@ namespace GoWatch.Models
 
         [DataType(DataType.Currency)]
         public double Price { get; set; }
+        //public long? Price { get; set; }
 
         [Display(Name = "Rate Event")]
         public int RateEvent { get; set; }

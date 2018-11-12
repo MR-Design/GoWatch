@@ -35,6 +35,8 @@ namespace GoWatch.Migrations
 
                     b.Property<string>("EventsPlace");
 
+                    b.Property<int>("FanID");
+
                     b.Property<string>("HomeTeam");
 
                     b.Property<double>("Price");
@@ -48,6 +50,8 @@ namespace GoWatch.Migrations
                     b.Property<int>("ZipCode");
 
                     b.HasKey("EventID");
+
+                    b.HasIndex("FanID");
 
                     b.ToTable("Events");
                 });
@@ -314,6 +318,14 @@ namespace GoWatch.Migrations
                     b.ToTable("ApplicationUser");
 
                     b.HasDiscriminator().HasValue("ApplicationUser");
+                });
+
+            modelBuilder.Entity("GoWatch.Models.Event", b =>
+                {
+                    b.HasOne("GoWatch.Models.Fan", "Fan")
+                        .WithMany()
+                        .HasForeignKey("FanID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("GoWatch.Models.Fan", b =>

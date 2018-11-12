@@ -1,36 +1,45 @@
-﻿@model GoWatch.Models.FriendRequest
+﻿
+@model IEnumerable<GoWatch.Models.FriendRequest>
+
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Index";
 }
 
-<h2>Details</h2>
+<h2>Index</h2>
 
-<div>
-    <h4>FriendRequest</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Fan)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Fan.FanID)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Friend)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Friend.FanID)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.StatusRequest)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.StatusRequest)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.FriendRequestID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Friend.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StatusRequest)
+            </th>
+
+
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Friend.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StatusRequest)
+                </td>
+
+                <td>
+                    <a asp-action="AddFriend" asp-route-id="@item.FanID">Look Up Profile</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,52 +1,42 @@
-﻿@model IEnumerable<GoWatch.Models.GuestList>
+﻿@model GoWatch.Models.MainViewModel
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<h2>People Joining </h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Fan)
+                @Html.DisplayNameFor(model => model.fans.FavoriteTeam)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Event)
+                @Html.DisplayNameFor(model => model.fans.FirstName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Going)
+                @Html.DisplayNameFor(model => model.fans.Lastname)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Arrived)
-            </th>
+   
+
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var fan in Model.AllFans) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Fan.FanID)
+                @Html.DisplayFor(modelItem => fan.FavoriteTeam)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Event.EventID)
+                @Html.DisplayFor(modelItem => fan.FirstName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Going)
+                @Html.DisplayFor(modelItem => fan.Lastname)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Arrived)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.GuestListID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.GuestListID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.GuestListID">Delete</a>
-            </td>
+           
+            
         </tr>
 }
     </tbody>

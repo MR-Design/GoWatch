@@ -25,22 +25,26 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FavoriteTeam)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Lastname)
-            </td>
-            <td>
-                <a asp-action="AddFriend" asp-route-id="@item.FanID">Add Friend</a> 
-                
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FavoriteTeam)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lastname)
+                </td>
+                <td>
+                    <a asp-action="AddFriend" asp-route-id="@item.FanID">Add Friend</a>
+
+
+                </td>
+            </tr>
+        }
+
     </tbody>
 </table>
+<button type="button" class="btn btn-primary btn-lg btn-block"asp-action="details" asp-controller="FriendRequests">See Friends</button>

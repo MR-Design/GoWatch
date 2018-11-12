@@ -9,11 +9,15 @@ using GoWatch.Data;
 using GoWatch.Models;
 using Microsoft.AspNet.Identity;
 
+
+
 namespace GoWatch.Controllers
 {
     public class FriendRequestsController : Controller
     {
         private readonly ApplicationDbContext _context;
+
+        //public string FanId { get; private set; }
 
         public FriendRequestsController(ApplicationDbContext context)
         {
@@ -29,23 +33,29 @@ namespace GoWatch.Controllers
         }
 
         // GET: FriendRequests/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var friendRequest = await _context.FriendRequests
-                .Include(f => f.Fan)
-                .Include(f => f.Friend)
-                .FirstOrDefaultAsync(m => m.FriendRequestID == id);
-            if (friendRequest == null)
-            {
-                return NotFound();
-            }
+            //var viewFriends =
+            //from f in _context.Fans
+            //join fr in _context.FriendRequests on f.FirstName equals fr.FanID
+            //where f.FirstName == this.HttpContext.User.Identity.Name
+            //orderby f.FirstName
+            //select new MainViewModel { fans = f, friendRequests = fr };
+            //return View(viewFriends);
 
-            return View(friendRequest);
+            var friendList = _context.FriendRequests.Include(f => f.Friend).ToList();
+
+            //var firstFriendRequest = friendList[0];
+            //var theFriend = _context.Fans.Where(f => f.FanID == firstFriendRequest.FriendID).Single();
+            //firstFriendRequest.Friend = theFriend;
+
+            //var currentUser = _context.Fans.Where(f => f.FirstName == FanId).Single();
+            // ViewData["FanID"] = new SelectList(_context.Fans, "FanID", "FanID");
+            // ViewData["FriendID"] = new SelectList(_context.FriendRequests, "FriendID", "FriendID");
+            return View(friendList);
+
+
         }
 
         // GET: FriendRequests/Create
@@ -96,7 +106,7 @@ namespace GoWatch.Controllers
             return RedirectToAction("Index");
             // return View();
 
-         
+
         }
 
 
@@ -155,6 +165,9 @@ namespace GoWatch.Controllers
             return View(friendRequest);
         }
 
+        // GET: FriendRequests/Details/5
+
+
         // GET: FriendRequests/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -174,6 +187,7 @@ namespace GoWatch.Controllers
 
             return View(friendRequest);
         }
+
 
         // POST: FriendRequests/Delete/5
         [HttpPost, ActionName("Delete")]

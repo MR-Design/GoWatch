@@ -79,21 +79,71 @@
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <strong>
                 &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp;
-            </strong> <a class="btn btn-danger " asp-action="Index" asp-controller="Events">Pay </a> 
+
+            </strong> 
+            <a asp-action="Charge" asp-controller="Events">
+                
+                @using Microsoft.Extensions.Options
+                @inject IOptions<StripeSettings> Stripe
+                <script src="//checkout.stripe.com/v2/checkout.js"
+                        class="stripe-button"
+                        data-key="@Stripe.Value.PublishableKey"
+                        data-locale="auto"
+                        data-description="Sample Charge"
+                        data-amount="@(Model.Price*100)">
+                </script>
+            </a> 
         </div>
 
     </div>
 
     <div class="col-xs-6">
-        <h1>Map Here ... </h1>
-        
+
+        <div id="map"></div>
+        <script>
+// Initialize and add the map
+    function initMap() {
+
+        geocodeAddress("@(String.Format("{0}, {1}, {2} {3}", Model.Address, Model.City, Model.State, Model.ZipCode))");
+
+    }
+    function geocodeAddress(address) {
+        var geocoder = new google.maps.Geocoder();
+
+        geocoder.geocode({ 'address': address }, function (results, status) {
+            if (status === 'OK') {
+                var map = new google.maps.Map(
+                    document.getElementById('map'), { zoom: 15, center: results[0].geometry.location });
+                map.setCenter(results[0].geometry.location);
+
+                var marker = new google.maps.Marker({
+                    map: map,
+                    position: results[0].geometry.location,
+                    title: address
+                });
+                marker.addListener('click', function () {
+                    infowindow.open(map, marker);
+                });
+                var infowindow = new google.maps.InfoWindow({
+                    content: address
+                });
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    }
+        </script>
+        <script async defer src="
+        @(String.Format("{0}{1}", "https://maps.googleapis.com/maps/api/js?key=AIzaSyDZRF1l3NbxawRCBsDZGUVeJFtkJFyiNqk", "&callback=initMap"))">
+        </script>
+
     </div>
     
 </div>
 <div>
     <div class=" btn-group btn-group-justified" style="color:#518EF5">
-        <a asp-action="Index" asp-controller="Events" class="btn btn-default">Book</a>
-        <a  asp-action="Index" asp-controller="GuestList" class="btn btn-default">See who Join</a>
+        <a  class="btn btn-default" asp-action="Joining" asp-controller="Events"  asp-route-id="@Model.EventID">Book</a>
+        <a  asp-action="Index" asp-controller="GuestLists" class="btn btn-default">See who Join</a>
         <a  asp-action="Index" asp-controller="Events" asp-route-id="" class="btn btn-default">Get Direction</a>
     </div>
 

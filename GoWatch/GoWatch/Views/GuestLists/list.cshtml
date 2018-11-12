@@ -1,0 +1,53 @@
+﻿@model IEnumerable<GoWatch.Models.GuestList>
+
+@{
+    ViewData["Title"] = "list";
+}
+
+<h2>list</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Fan)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Event)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Going)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Arrived)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fan.FanID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Event.EventID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Going)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Arrived)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.GuestListID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.GuestListID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.GuestListID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

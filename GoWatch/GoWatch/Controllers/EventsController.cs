@@ -7,6 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GoWatch.Data;
 using GoWatch.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNet.Identity;
+using Microsoft.IdentityModel.Protocols;
+using Stripe;
+using Event = GoWatch.Models.Event;
 
 namespace GoWatch.Controllers
 {
@@ -20,6 +25,29 @@ namespace GoWatch.Controllers
         }
 
 
+
+        public IActionResult Charge(string stripeEmail, string stripeToken)
+        {
+            var customers = new CustomerService();
+            var charges = new ChargeService();
+
+            var customer = customers.Create(new CustomerCreateOptions
+            {
+                Email = stripeEmail,
+                SourceToken = stripeToken
+            });
+
+            var charge = charges.Create(new ChargeCreateOptions
+            {
+                Amount = 500,
+               // Amount = _context.Events.Select(x => x.Price).SingleOrDefault(),
+                Description = "Sample Charge",
+                Currency = "usd",
+                CustomerId = customer.Id
+            });
+
+            return View();
+        }
         public ActionResult SearchEvents(string searchString)
         {
             var Word = _context.Events.ToList();
@@ -36,7 +64,32 @@ namespace GoWatch.Controllers
             Word = Word2;
             return View(w);
         }
+        //[HttpGet]
+        //public ActionResult Joining()
+        //{
+        //    return View();
+        //}
+        public ActionResult Joining(int? id)
+        {
+            
+            var viewModel = new MainViewModel()
+            {
+                AllFans = new List<Fan>(),
+                guestLists =new GuestList()
+            };
 
+            var eventIDInDb = _context.Events.Where(s => s.EventID == id).FirstOrDefault();
+            viewModel.guestLists.EventID = eventIDInDb.EventID;
+
+            Fan fun = _context.Fans.Where(s => s.ApplicationUserId == User.Identity.GetUserId().ToString()).SingleOrDefault();
+            //sfan.ApplicationUserId = User.Identity.GetUserId();
+            viewModel.guestLists.FanID = fun.FanID;
+
+            viewModel.guestLists.Going = true;
+                _context.GuestLists.Add(viewModel.guestLists);
+            _context.SaveChanges();
+            return RedirectToAction("index", "Events");
+        }
 
         // GET: Events
         public  ActionResult Index(string searchString)
@@ -48,9 +101,11 @@ namespace GoWatch.Controllers
                 Word = Word.Where(s => s.AwayTeam == searchString || s.HomeTeam == searchString).ToList(); // I need to search in the hole database
 
             }
-            return View(Word);
+            return View("Index", Word);
          
         }
+
+        
 
         // GET: Events/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -113,7 +168,7 @@ namespace GoWatch.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("EventID,EventType,Address,City,State,ZipCode,HomeTeam,AwayTeam,Rules,Price")] Event @event)
+        public async Task<IActionResult> Edit(int id, [Bind("EventID,EventType,Address,City,State,ZipCode,HomeTeam,AwayTeam,Rules,Price")] Models.Event @event)
         {
             if (id != @event.EventID)
             {

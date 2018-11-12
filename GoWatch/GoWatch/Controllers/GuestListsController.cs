@@ -20,11 +20,39 @@ namespace GoWatch.Controllers
         }
 
         // GET: GuestLists
-        public async Task<IActionResult> Index()
+        public ActionResult Index()
         {
-            var applicationDbContext = _context.GuestLists.Include(g => g.Event).Include(g => g.Fan);
-            return View(await applicationDbContext.ToListAsync());
+
+            MainViewModel Mvm = new MainViewModel();
+            List<Fan> AllFans = new List<Fan>();
+            List<GuestList> AllGuestList = new List<GuestList>();
+
+
+            //var BigList = _context.GuestLists.Include(x=>x.FanID).ToList();
+            // viewModel.AllGuestList = _context.GuestLists.ToList();
+            //viewModel.AllGuestList =  _context.GuestLists.Include(g => g.EventID).Include(g => g.FanID).ToList();
+
+            Mvm.AllFans = _context.Fans.ToList();
+            var f = Mvm.AllFans.Select(x => x.FanID).ToList();
+
+
+            //  var eventThing = _context.Events.Where();
+            //  var BigList = _context.GuestLists.Include(x => x.FanID).ToList();
+            //Mvm.AllGuestList = _context.GuestLists.ToList();
+            //Mvm.AllGuestList = _context.GuestLists.Include(g => g.EventID).Include(g => g.FanID).Where(s => s.EventID == eventThing.EventID).Select(s => s.Fan.FirstName);
+            //var theseGuests = _context.Fans.Where(f => f.FanID == Mvm.AllGuestList.Contains());
+            //Mvm.AllFans = _context.Fans.ToList();
+            //var f = Mvm.AllFans.Select(x => x.FanID).ToList();
+            //Mvm.AllFans = new List<Fan>();
+            //foreach (var item in Mvm.AllGuestList)
+            //{
+            //    var thing = _context.Fans.Where(q => q.FanID == item.FanID).SingleOrDefault();
+            //    Mvm.AllFans.Add(thing);
+            //}
+
+            return View(Mvm);
         }
+        
 
         // GET: GuestLists/Details/5
         public async Task<IActionResult> Details(int? id)

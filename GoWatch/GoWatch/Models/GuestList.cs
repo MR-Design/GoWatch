@@ -22,8 +22,5 @@ namespace GoWatch.Models
         public bool Going { get; set; }
         public bool Arrived { get; set; }
 
-
-
-
     }
 }
